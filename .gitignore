@@ -3,3 +3,4 @@ workspace.xml
 tasks.xml
 usage.statistics.xml
 shelf/
+.DS_Store
