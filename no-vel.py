@@ -3,7 +3,7 @@
 # Press ⌃R to execute it or replace it with your code.
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 import random
-
+import os
 import markdown
 from weasyprint import HTML, CSS
 
@@ -79,7 +79,8 @@ def createPDF(novelString):
 if __name__ == '__main__':
     novel = create_novel()
     novel_pdf = createPDF(novel)
-    f = open("no-vel.pdf", "wb")
+
+    f = open("output/01_no-vel.pdf", "wb")
     f.write(novel_pdf)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
