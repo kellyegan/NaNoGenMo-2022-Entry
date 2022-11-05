@@ -4,3 +4,4 @@ tasks.xml
 usage.statistics.xml
 shelf/
 .DS_Store
+__pycache__
