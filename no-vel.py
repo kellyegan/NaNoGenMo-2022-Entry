@@ -1,11 +1,5 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from output import create_pdf, save_pdf
 import random
-import os
-import markdown
-from weasyprint import HTML, CSS
 
 
 def create_no_phrase(min_nos, max_nos):
@@ -69,18 +63,9 @@ def oString(x):
     return "o" * count
 
 
-def createPDF(novelString):
-    novel_html = markdown.markdown(novelString)
-    htmldoc = HTML(string=novel_html, base_url="")
-    return htmldoc.write_pdf()
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     novel = create_novel()
-    novel_pdf = createPDF(novel)
+    novel_pdf = create_pdf(novel)
+    save_pdf(novel_pdf, "output/n01_no-vel.pdf")
 
-    f = open("output/01_no-vel.pdf", "wb")
-    f.write(novel_pdf)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
