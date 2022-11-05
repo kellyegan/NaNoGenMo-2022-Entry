@@ -56,8 +56,8 @@ def create_novel(novel_word_length=50000):
         if chapter_word_count >= current_chapter_length:
             chapter_word_count = 0
             novel += "\n\n## " + chapter_titles.pop() + "\n\n"
-            current_chapter_length = random.randrange(min(0, target_chapter_length - 500),
-                                                      max(target_chapter_length + 500, novel_word_length - word_count))
+            current_chapter_length = random.randrange(int(min(0, target_chapter_length - 500)),
+                                                      int(max(target_chapter_length + 500, novel_word_length - word_count)))
 
     return novel
 
