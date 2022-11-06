@@ -1,3 +1,5 @@
+import random
+
 from output import create_pdf, save_pdf
 from os import path
 import tracery
@@ -14,19 +16,25 @@ def create_wordlist():
     maybes = ["meh", "ehh", "I don't know", "possibly", "conceivably", "supposedly", "well...", "not really", "we'll see", "maybe", "perhaps", "mmmm", "errrr"]
     positives = ["yeah", "alright", "technically your right", "ok", "I guess", "sure", "go ahead", "if you have to", "in certain circumstances", "if you put it that way"]
 
-    for i in range(80):
+    for i in range(85):
         words.append("#no#")
 
-    for i in range(20):
+    for i in range(25):
         words.append("never")
 
-    for i in range(10):
+    for i in range(12):
         words.append("nope")
 
-    for i in range(3):
+    for i in range(6):
         words.extend(negatives)
 
-    # words.extend(maybes)
+    random.shuffle(words)
+
+    for i in range(5):
+        words.extend(maybes)
+
+    for i in range(5):
+        words.extend(positives)
 
     return words
 
@@ -46,7 +54,7 @@ def create_grammar(words):
     return grammar
 
 
-def create_paragraph(grammar):
+def create_sentence(grammar):
     return grammar.flatten("#origin#")
 
 
@@ -60,40 +68,71 @@ def create_chapter(grammar, chapter_word_min=100):
     chapter_word_count = 0
 
     while chapter_word_count < chapter_word_min:
-        paragraph = create_paragraph(grammar)
+        paragraph = create_sentence(grammar)
         chapter_word_count += len(paragraph.split())
-        chapter += create_paragraph(grammar) + "\n\n"
+        chapter += create_sentence(grammar) + "\n\n"
 
     return chapter, chapter_word_count
 
 
 def create_novel(novel_word_min):
     words = create_wordlist()
-    grammar = create_grammar(words)
-    chapter_titles = []
-    word_count = 0
-    sentences = []
+    grammar = create_grammar(words[:100])
 
+    chapter_title = create_title(grammar)
+    chapter_titles = [chapter_title]
+    print(chapter_title)
+
+    word_count = 0
+    novel_text = ""
+    sentence_count = 0
+    current_paragraph = []
+    current_chapter = []
+
+    min_chapter_length = novel_word_min / 10
+    chapter_word_count = 0
 
     while word_count < novel_word_min:
+        sentence = create_sentence(grammar)
+        words_in_sentence = len(sentence.split())
+        word_count += words_in_sentence
+        chapter_word_count += words_in_sentence
 
-    #     while True:
-    #         chapter_title = create_title(grammar)
-    #         if chapter_title not in chapter_titles:
-    #             break
-    #
-    #     word_count += len(chapter_title)
-    #     chapter_text, chapter_word_count = create_chapter(grammar, 5000)
-    #     word_count += chapter_word_count
-    #
-    #     sentences.append()
-    #
-    #     novel_text += f'## {chapter_title}\n\n'
-    #     novel_text += f'{chapter_text}\n'
-    #
-    # novel_title = create_title(grammar)
-    #
-    # novel_title = f'# {novel_title}\n\n\n' + novel_text
+        sentence_count += 1
+        current_paragraph.append(sentence)
+
+        # Paragraph should be between 3, 7 sentences
+        if len(current_paragraph) > random.randrange(3, 7):
+            current_chapter.append(" ".join(current_paragraph))
+            current_paragraph = []
+
+        # Chapters should be match approximate word length
+        if chapter_word_count > random.randrange(int(min_chapter_length * 0.75), int(min_chapter_length * 1.5)):
+            novel_text += f"\n\n## {chapter_title}\n\n"
+            novel_text += "\n\n".join(current_chapter)
+            current_chapter = []
+
+            chapter_word_count = 0
+
+            # Check chapter titles are unique
+            while True:
+                chapter_title = create_title(grammar)
+                if chapter_title not in chapter_titles:
+                    break
+            chapter_titles.append(chapter_title)
+
+        if sentence_count % 40 == 0:
+            words.pop(0)
+            grammar = create_grammar(words[:100])
+
+    if len(current_paragraph) > 0:
+        current_chapter.append(" ".join(current_paragraph))
+
+    if len(current_chapter) > 0:
+        novel_text += "\n\n".join(current_chapter)
+
+    novel_text += "\n\nYes.\n\n"
+    print(chapter_titles)
 
     return novel_text, word_count
 
@@ -103,4 +142,4 @@ if __name__ == '__main__':
     novel_pdf = create_pdf(novel)
     filename = path.basename(__file__).split(".")[0]
     save_pdf(novel_pdf, f"output/{filename}.pdf")
-    print(words)
+    # print(words)
