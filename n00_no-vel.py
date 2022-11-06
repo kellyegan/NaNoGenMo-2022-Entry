@@ -1,4 +1,5 @@
 from output import create_pdf, save_pdf
+import os
 import random
 
 
@@ -66,6 +67,7 @@ def oString(x):
 if __name__ == '__main__':
     novel = create_novel()
     novel_pdf = create_pdf(novel)
-    save_pdf(novel_pdf, "output/n01_no-vel.pdf")
+    filename = os.path.basename(__file__).split(".")[0]
+    save_pdf(novel_pdf, f"output/{filename}.pdf")
 
 
