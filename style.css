@@ -1,0 +1,54 @@
+html, body {
+    font-family: "Roboto", sans-serif;
+    font-size: 9pt;
+    position: relative;
+}
+
+h1 {
+    height: 3rem;
+    width: 100%;
+    margin: 50% 0;
+    vertical-align: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    page-break-before: always;
+    page-break-after: always;
+}
+
+h2 {
+    page-break-before: always;
+    margin-top: 8rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+p {
+    text-indent: 2rem;
+}
+
+@media print {
+
+  a::after {
+    content: " (" attr(href) ") ";
+  }
+  pre {
+    white-space: pre-wrap;
+  }
+  @page {
+    margin: 1.25in;
+    size: Letter;
+    @bottom-center {
+      font-family: "Roboto", sans-serif;
+      font-size: 9pt;
+      content: counter(page);
+    }
+  }
+  @page :first {
+    @top-right {
+      content: "";
+    }
+  }
+}
