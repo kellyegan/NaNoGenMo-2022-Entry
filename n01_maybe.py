@@ -79,12 +79,11 @@ def create_novel(novel_word_min):
     words = create_wordlist()
     grammar = create_grammar(words[:100])
 
+    novel_text = f"# {create_title(grammar)}"
     chapter_title = create_title(grammar)
     chapter_titles = [chapter_title]
-    print(chapter_title)
 
     word_count = 0
-    novel_text = ""
     sentence_count = 0
     current_paragraph = []
     current_chapter = []
@@ -102,7 +101,7 @@ def create_novel(novel_word_min):
         current_paragraph.append(sentence)
 
         # Paragraph should be between 3, 7 sentences
-        if len(current_paragraph) > random.randrange(3, 7):
+        if len(current_paragraph) > random.randrange(6, 10):
             current_chapter.append(" ".join(current_paragraph))
             current_paragraph = []
 
@@ -132,7 +131,6 @@ def create_novel(novel_word_min):
         novel_text += "\n\n".join(current_chapter)
 
     novel_text += "\n\nYes.\n\n"
-    print(chapter_titles)
 
     return novel_text, word_count
 
