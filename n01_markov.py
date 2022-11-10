@@ -3,21 +3,40 @@ import gutenbergpy.textget
 import nltk
 from nltk.tokenize import sent_tokenize
 
-tow_hundred_id = [2641, 145, 37106, 16389, 67979, 100, 2701, 394, 6761, 2160, 4085, 6593, 1259, 5197, 84, 1342, 25344, 46, 345, 11, 1661, 2542, 43, 174, 69314, 64317, 1952, 98, 20228, 844, 69313, 1260, 1080, 69311, 1400, 23, 76, 5200, 69308, 2554, 2591, 41, 69310, 219, 408, 4300, 28054, 1232, 2600, 2852, 158, 120, 6130, 205, 45031, 1184, 996, 3207, 55, 1727, 768, 74, 203, 1497, 2814, 69307, 45, 58585, 16, 244, 7370, 160, 3825, 514, 135, 31284, 215, 1399, 35, 852, 10007, 30254, 42324, 779, 4363, 2148, 236, 69316, 20203, 43453, 521, 35899, 1250, 27827, 69315, 42108, 16328, 105, 730, 33283]
+tow_hundred_id = [2641, 145, 37106, 16389, 67979, 100, 2701, 394, 6761, 2160, 4085, 6593, 1259, 5197, 84, 1342, 25344,
+                  46, 345, 11, 1661, 2542, 43, 174, 69314, 64317, 1952, 98, 20228, 844, 69313, 1260, 1080, 69311, 1400,
+                  23, 76, 5200, 69308, 2554, 2591, 41, 69310, 219, 408, 4300, 28054, 1232, 2600, 2852, 158, 120, 6130,
+                  205, 45031, 1184, 996, 3207, 55, 1727, 768, 74, 203, 1497, 2814, 69307, 45, 58585, 16, 244, 7370, 160,
+                  3825, 514, 135, 31284, 215, 1399, 35, 852, 10007, 30254, 42324, 779, 4363, 2148, 236, 69316, 20203,
+                  43453, 521, 35899, 1250, 27827, 69315, 42108, 16328, 105, 730, 33283]
 
 
 def get_book_by_id(id):
-        nltk.download('punkt')
-        raw_book = gutenbergpy.textget.get_text_by_id(id)
-        clean_book = gutenbergpy.textget.strip_headers(raw_book)\
-                .decode("utf-8")\
-                .replace('\n', ' ')\
-                .replace('\r', '')
-        return clean_book
+    nltk.download('punkt')
+    raw_book = gutenbergpy.textget.get_text_by_id(id)
+    clean_book = gutenbergpy.textget.strip_headers(raw_book) \
+        .decode("utf-8") \
+        .replace('\n', ' ') \
+        .replace('\r', '')
+    return clean_book
+
+
+def find_word(query, list_of_strings):
+    return [s for s in list_of_strings if query in s]
+
+
+def find_words(query_list, list_of_strings):
+    results = []
+    for s in list_of_strings:
+        for query in query_list:
+            if query in s:
+                results.append(s)
+            break;
 
 
 if __name__ == '__main__':
-        book = get_book_by_id(42108)
-        sentences = sent_tokenize(book)
-        for sentence in sentences:
-                print(sentence)
+    book = get_book_by_id(2641)
+    sentences = sent_tokenize(book)
+    sentences_with_no = find_word("no ", sentences)
+    for sentence in sentences_with_no:
+        print(sentence)
