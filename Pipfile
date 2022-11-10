@@ -7,6 +7,8 @@ name = "pypi"
 markdown = "*"
 weasyprint = "*"
 tracery = "*"
+gutenbergpy = "*"
+nltk = "*"
 
 [dev-packages]
 
