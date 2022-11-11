@@ -2,7 +2,7 @@ import re
 
 
 def find_word(query, list_of_strings):
-    pattern = re.compile(f"\W?{query}\W?", flags=re.IGNORECASE)
+    pattern = re.compile(f"\W?{query}\W", flags=re.IGNORECASE)
     return [s for s in list_of_strings if pattern.search(s)]
 
 
@@ -10,7 +10,7 @@ def find_words(query_list, list_of_strings):
     results = []
     for s in list_of_strings:
         for query in query_list:
-            if query in s:
+            if re.search(f"\W?{query}\W", s, flags=re.IGNORECASE):
                 results.append(s)
                 break;
     return results
@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     with open(file_path, "r") as f:
         sentences = f.readlines()[100:110]
-        no_sentences = find_word("Englishman", sentences)
+        no_sentences = find_words(["englishman", "Sinking"], sentences)
         print(sentences)
         print(no_sentences)
 
