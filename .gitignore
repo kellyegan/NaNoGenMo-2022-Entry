@@ -1,8 +1,7 @@
-workspace.xml
-tasks.xml
-usage.statistics.xml
-shelf/
 .DS_Store
 __pycache__
+.idea
+shelf/
 sentence_data/
 texts/
+
