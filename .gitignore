@@ -1,9 +1,8 @@
 .DS_Store
 __pycache__
-.idea/*
+.idea/
 shelf/
 sentence_data/
 texts/
-*.iml
-.idea/NaNoGenMo-2022.iml
+
 
