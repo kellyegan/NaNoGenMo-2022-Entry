@@ -1,7 +1,3 @@
-from output import create_pdf, save_pdf
-import gutenbergpy.textget
-import nltk
-from nltk.tokenize import sent_tokenize
 import os
 
 
