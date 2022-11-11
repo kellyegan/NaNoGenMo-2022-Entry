@@ -1,5 +1,9 @@
+import re
+
+
 def find_word(query, list_of_strings):
-    return [s for s in list_of_strings if query in s]
+    pattern = re.compile(f"\W?{query}\W?", flags=re.IGNORECASE)
+    return [s for s in list_of_strings if pattern.search(s)]
 
 
 def find_words(query_list, list_of_strings):
@@ -19,7 +23,7 @@ if __name__ == '__main__':
 
     with open(file_path, "r") as f:
         sentences = f.readlines()[100:110]
-        no_sentences = find_words(["devil", "himself"], sentences)
+        no_sentences = find_word("Englishman", sentences)
         print(sentences)
         print(no_sentences)
 
