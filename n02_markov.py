@@ -22,10 +22,8 @@ if __name__ == '__main__':
     file_path = data_directory + "/" + "60.txt"
 
     with open(file_path, "r") as f:
-        sentences = f.readlines()[100:110]
-        no_sentences = find_words(["englishman", "Sinking", "Bib"], sentences)
-        print(sentences)
-        print(no_sentences)
-
-
-
+        sentences = f.readlines()
+        no_sentences = find_words(["no", "never", "not", "nope"], sentences)
+        # print(sentences)
+        for sentence in no_sentences:
+            print(sentence, end="")
