@@ -19,8 +19,4 @@ def find_words(query_list, list_of_strings):
 
 
 if __name__ == '__main__':
-    book = get_book_by_id(2641)
-    sentences = sent_tokenize(book)
-    sentences_with_no = find_word("no ", sentences)
-    for sentence in sentences_with_no:
-        print(sentence)
+    print("hello")
