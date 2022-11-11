@@ -4,3 +4,5 @@ usage.statistics.xml
 shelf/
 .DS_Store
 __pycache__
+sentence_data/
+texts/
