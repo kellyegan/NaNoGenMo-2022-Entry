@@ -1,7 +1,8 @@
 import re
 from os import walk
-from os.path import isfile, join
+from os.path import basename, join
 import random
+from output import create_pdf, save_pdf
 
 import markovify
 
@@ -88,17 +89,20 @@ if __name__ == '__main__':
     phrases = ["I will not", "I shall not", "I won't", "I shan't", "I will never", "I would never", "I would not",
                "I absolutely will not", "I definitely will not"]
 
-    # Collect source sentences from existing books
-    sentences = generate_source_sentences(phrases, data_directory)
-    sentences = [sentence.rstrip("\"'\n") + "\n" for sentence in sentences]
-    with open('source_sentences.txt', "w") as source_file:
-        source_file.writelines(sentences)
+    # # Collect source sentences from existing books
+    # sentences = generate_source_sentences(phrases, data_directory)
+    # sentences = [sentence.rstrip("\"'\n") + "\n" for sentence in sentences]
+    # with open('source_sentences.txt', "w") as source_file:
+    #     source_file.writelines(sentences)
 
     # Load source data from source file.
     with open('source_sentences.txt', "r") as source_file:
         source_data = source_file.readlines()
         novel, words = generate_novel(source_data, 50000)
-        print(novel)
+
+        novel_pdf = create_pdf(novel)
+        filename = basename(__file__).split(".")[0]
+        save_pdf(novel_pdf, f"output/{filename}.pdf")
         print(words)
 
 
