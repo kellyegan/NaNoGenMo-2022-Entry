@@ -9,6 +9,7 @@ weasyprint = "*"
 tracery = "*"
 gutenbergpy = "*"
 nltk = "*"
+markovify = "*"
 
 [dev-packages]
 
