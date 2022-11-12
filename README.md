@@ -8,5 +8,6 @@ I plan to make some more novels perhaps a bit more advanced and add them to this
 
 ## Novels
 
-* *No-vel*: a novel made of 50,000 no's.
-* *Maybe*: Add some word variation.
+* *No-vel*: a novel made of 50,000 random variations on "no"s
+* *Never, nooooooooooo noo*: From no to yes in 50,000 words uses tracery.
+* *I will not stand it any longer*: A collection of statements of what the author won't do, using markov chains.
