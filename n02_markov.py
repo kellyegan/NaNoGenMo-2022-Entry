@@ -67,13 +67,19 @@ def generate_novel(source_sentences, novel_length):
     text = "".join(source_sentences)
     text_model = markovify.NewlineText(text)
 
-    title = text_model.make_short_sentence(50)
-
-    novel = f"# {title.rstrip('.!?')}\n\n"
     word_count = 0
     chapter_length = novel_length / 12
     chapter_min = int(chapter_length * 0.8)
     chapter_max = int(chapter_length * 1.2)
+    novel = ""
+
+    title = text_model.make_short_sentence(50)
+    while True:
+        if title:
+            word_count += len(title.split())
+            novel += f"# {title.rstrip('.!?')}\n\n"
+            break
+        title = text_model.make_short_sentence(50)
 
     while word_count < novel_length:
         chapter, chapter_words = generate_chapter(text_model, random.randrange(chapter_min, chapter_max))
