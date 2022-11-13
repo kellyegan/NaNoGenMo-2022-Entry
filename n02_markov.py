@@ -22,7 +22,7 @@ def find_words(query_list, list_of_strings):
     return results
 
 
-def generate_source_sentences(search_phrases, sentence_data_path):
+def create_source_sentences(search_phrases, sentence_data_path):
     sentences = []
     novels = 0
 
@@ -38,7 +38,7 @@ def generate_source_sentences(search_phrases, sentence_data_path):
     return sentences
 
 
-def generate_chapter(text_model, chapter_length):
+def create_chapter(text_model, chapter_length):
     word_count = 0
     sentence_count = 0
     chapter = ""
@@ -63,7 +63,7 @@ def generate_chapter(text_model, chapter_length):
     return chapter, word_count
 
 
-def generate_novel(source_sentences, novel_length):
+def create_novel(source_sentences, novel_length):
     text = "".join(source_sentences)
     text_model = markovify.NewlineText(text)
 
@@ -82,7 +82,7 @@ def generate_novel(source_sentences, novel_length):
         title = text_model.make_short_sentence(50)
 
     while word_count < novel_length:
-        chapter, chapter_words = generate_chapter(text_model, random.randrange(chapter_min, chapter_max))
+        chapter, chapter_words = create_chapter(text_model, random.randrange(chapter_min, chapter_max))
         novel += chapter
         word_count += chapter_words
 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     phrases = ["I will not", "I shall not", "I won't", "I shan't", "I will never", "I would never", "I would not",
                "I absolutely will not", "I definitely will not"]
 
-    # # Collect source sentences from existing books
+    # Collect source sentences from existing books
     # sentences = generate_source_sentences(phrases, data_directory)
     # sentences = [sentence.rstrip("\"'\n") + "\n" for sentence in sentences]
     # with open('source_sentences.txt', "w") as source_file:
@@ -104,9 +104,9 @@ if __name__ == '__main__':
     # Load source data from source file.
     with open('source_sentences.txt', "r") as source_file:
         source_data = source_file.readlines()
-        novel, words = generate_novel(source_data, 50000)
+        text, words = create_novel(source_data, 50000)
 
-        novel_pdf = create_pdf(novel)
+        novel_pdf = create_pdf(text)
         filename = basename(__file__).split(".")[0]
         save_pdf(novel_pdf, f"output/{filename}.pdf")
         print(words)
