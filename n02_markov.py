@@ -7,22 +7,40 @@ from output import create_pdf, save_pdf
 import markovify
 
 
-def find_word(query, list_of_strings):
-    pattern = re.compile(r"\b" + query + r"\b", flags=re.IGNORECASE)
+def find_pattern_in_list(query, list_of_strings):
+    '''
+    Return a list of strings that have at least one match to a regex pattern
+    :param query: regex pattern to match
+    :param list_of_strings: string to match against
+    :return: list of strings that match the pattern
+    '''
+    pattern = re.compile(query, flags=re.IGNORECASE)
     return [s for s in list_of_strings if pattern.search(s)]
 
 
-def find_words(query_list, list_of_strings):
+def find_patterns_in_list(query_list, list_of_strings):
+    '''
+    Return a list of strings that have at least one match to a pattern in a list of regex patterns
+    :param query_list: list of regex patterns to match against
+    :param list_of_strings: string to match the pattern
+    :return: list of strings that match at least one of the patterns
+    '''
     results = []
     for s in list_of_strings:
         for query in query_list:
-            if re.search(r"^" + query + r"\b", s, flags=re.IGNORECASE):
+            if re.search(query, s, flags=re.IGNORECASE):
                 results.append(s)
                 break;
     return results
 
 
 def create_source_sentences(search_phrases, sentence_data_path):
+    '''
+    Search a directory of text files for sentences that match specific phrases
+    :param search_phrases: list of phrases to search for
+    :param sentence_data_path: path to search for text files (recursively searches directory)
+    :return: list of sentences that match phrases
+    '''
     sentences = []
     novels = 0
 
@@ -31,7 +49,7 @@ def create_source_sentences(search_phrases, sentence_data_path):
             if file.endswith(".txt"):
                 with open(join(root, file), "r") as f:
                     current_sentences = f.readlines()
-                    negative_sentences = find_words(search_phrases, current_sentences)
+                    negative_sentences = find_patterns_in_list(search_phrases, current_sentences)
                     if len(negative_sentences) > 0:
                         novels += 1
                     sentences.extend(negative_sentences)
@@ -92,14 +110,17 @@ def create_novel(source_sentences, novel_length):
 if __name__ == '__main__':
     data_directory = "sentence_data"
 
+    # Phrases to search for in source sentences
     phrases = ["I will not", "I shall not", "I won't", "I shan't", "I will never", "I would never", "I would not",
                "I absolutely will not", "I definitely will not"]
+    # Restructure phrases into regex that look for words at the beginning of the search string
+    queries = [r"^" + phrase + r"\b" for phrase in phrases]
 
     # Collect source sentences from existing books
-    # sentences = generate_source_sentences(phrases, data_directory)
-    # sentences = [sentence.rstrip("\"'\n") + "\n" for sentence in sentences]
-    # with open('source_sentences.txt', "w") as source_file:
-    #     source_file.writelines(sentences)
+    sentences = create_source_sentences(queries, data_directory)
+    sentences = [sentence.rstrip("\"'\n") + "\n" for sentence in sentences]
+    with open('source_sentences.txt', "w") as source_file:
+        source_file.writelines(sentences)
 
     # Load source data from source file.
     with open('source_sentences.txt', "r") as source_file:
