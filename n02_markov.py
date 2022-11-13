@@ -57,6 +57,12 @@ def create_source_sentences(search_phrases, sentence_data_path):
 
 
 def create_chapter(text_model, chapter_length):
+    '''
+    Create a chapter worth of text from markov chain model
+    :param text_model: markov model from markovify
+    :param chapter_length: desired number of words in chapter
+    :return: tuple containing text of chapter and number of words it contains
+    '''
     word_count = 0
     sentence_count = 0
     chapter = ""
@@ -82,6 +88,12 @@ def create_chapter(text_model, chapter_length):
 
 
 def create_novel(source_sentences, novel_length):
+    '''
+    Generate a novel's worth of text, including chapters from a markov model
+    :param source_sentences: sentences used to generate markov model
+    :param novel_length: desired number of words in model
+    :return: tuple containing text of novel and number of words
+    '''
     text = "".join(source_sentences)
     text_model = markovify.NewlineText(text)
 
